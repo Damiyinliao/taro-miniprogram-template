@@ -1,0 +1,15 @@
+// ESLint 检查 .vue 文件需要单独配置编辑器：
+// https://eslint.vuejs.org/user-guide/#editor-integrations
+{
+  "extends": ["taro/vue3"],
+  "parser": "vue-eslint-parser", // 指定 ESLint 解析器为 vue-eslint-parser
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser", // 使用 @typescript-eslint/parser 解析 TypeScript
+    "ecmaVersion": 2020, // 允许使用现代的 ECMAScript 特性
+    "sourceType": "module" // 允许使用 ES6 模块语法
+  },
+  "plugins": ["vue", "@typescript-eslint"], // 使用 @typescript-eslint 插件
+  "rules": {
+    "vue/multi-word-component-names": "off"
+  }
+}
