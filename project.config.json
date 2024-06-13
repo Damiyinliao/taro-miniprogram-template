@@ -1,8 +1,8 @@
 {
   "miniprogramRoot": "./dist",
   "projectname": "prompt",
-  "description": "催催，治疗拖延症",
-  "appid": "wx86f3f7183c2bf917",
+  "description": "testAppId",
+  "appid": "",
   "setting": {
     "urlCheck": true,
     "es6": false,

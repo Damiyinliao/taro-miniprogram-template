@@ -3,11 +3,14 @@ import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 import devConfig from './dev'
 import prodConfig from './prod'
 import path from 'path'
+import { log } from '@/utils'
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig(async (merge, { command, mode }) => {
+  log.info('command', command)
+  log.info('mode', mode)
   const baseConfig: UserConfigExport = {
-    projectName: 'prompt',
+    projectName: 'taro-miniprogram-template',
     date: '2024-2-27',
     designWidth: 750,
     deviceRatio: {
@@ -21,7 +24,7 @@ export default defineConfig(async (merge, { command, mode }) => {
     },
     sourceRoot: 'src',
     outputRoot: 'dist',
-    plugins: [],
+    plugins: ['@tarojs/plugin-html'], // 配置需要使用的 Taro 插件
     defineConstants: {
     },
     copy: {
@@ -31,7 +34,10 @@ export default defineConfig(async (merge, { command, mode }) => {
       }
     },
     framework: 'vue3',
-    compiler: 'webpack5',
+    compiler: {
+      type: 'webpack5',
+      prebundle: { enable: false, force: true }
+    },
     cache: {
       enable: false // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
     },
@@ -69,9 +75,9 @@ export default defineConfig(async (merge, { command, mode }) => {
         chunkFilename: 'js/[name].[chunkhash:8].js'
       },
       miniCssExtractPluginOption: {
-        ignoreOrder: true,
+        ignoreOrder: true,  //忽略css文件引入顺序
         filename: 'css/[name].[hash].css',
-        chunkFilename: 'css/[name].[chunkhash].css'
+        chunkFilename: 'css/[name].[chunkhash].css',
       },
       postcss: {
         autoprefixer: {
@@ -88,7 +94,7 @@ export default defineConfig(async (merge, { command, mode }) => {
       },
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
-      }
+      },
     },
     rn: {
       appName: 'taroDemo',
