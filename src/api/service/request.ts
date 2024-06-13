@@ -4,20 +4,19 @@ const config = {
   baseURL: process.env.TARO_APP_API,
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json;charset=utf-8'
   }
 };
 
-interface HttpResponse {
-  code: number;
-  data: any;
-  msg: string;
-}
+const CancelToken = axios.CancelToken
 
 class RequestHttp {
   service: AxiosInstance;
+  private pending: Record<string, any>
+
   public constructor(config: AxiosRequestConfig) {
     this.service = axios.create(config);
+    this.pending = {};
 
     /**
      * @description 请求拦截器
@@ -26,6 +25,11 @@ class RequestHttp {
      */
     this.service.interceptors.request.use(
       (config: AxiosRequestConfig) => {
+        const key = config.url + '&' + config.method
+        this.removePending(key, true)
+        config.cancelToken = new CancelToken(c => {
+          this.pending[key] = c
+        })
         return config;
       },
       (error: any) => {
@@ -40,16 +44,44 @@ class RequestHttp {
 
     this.service.interceptors.response.use(
       (response: AxiosResponse) => {
-        return response;
+        const key = response.config.url + '&' + response.config.method;
+        this.removePending(key);
+        return Promise.resolve(response);
       },
       (error: any) => {
         return Promise.reject(error);
       }
     )
   }
+  removePending(key: string, isRequest = false) {
+    try {
+      if (this.pending[key] && isRequest) {
+        this.pending[key]('取消重复请求')
+      }
+      delete this.pending[key]
+    } catch (e) {
+      console.warn(e)
+    }
+  }
 
   get(url: string, params?: any): Promise<AxiosResponse> | Promise<HttpResponse> {
     return this.service.get(url, { params });
+  }
+  post(url: string, data?: any): Promise<AxiosResponse> | Promise<HttpResponse> {
+    return this.service.post(url, data);
+  }
+  put(url: string, data?: any): Promise<AxiosResponse> | Promise<HttpResponse> {
+    return this.service.put(url, data);
+  }
+  delete(url: string, data?: any): Promise<AxiosResponse> | Promise<HttpResponse> {
+    return this.service.delete(url, { data });
+  }
+  upload(url: string, data?: FormData): Promise<AxiosResponse> | Promise<HttpResponse> {
+    return this.service.post(url, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
   }
 }
 

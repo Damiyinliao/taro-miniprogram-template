@@ -1,14 +1,16 @@
 import { createApp } from 'vue'
-import store from './store'
 import { useAppStore } from './store/modules'
+import store from './store'
+import component from './utils/component'
+import { log } from './utils'
 import './app.scss'
 
 const App = createApp({
   onShow (options) {
-    console.log('App onShow.')
+    log.success('App onShow.')
   },
   onLaunch (options) {
-    console.log('App onLaunch.')
+    log.success('App onLaunch.')
     const appStore = useAppStore();
     appStore.setDeviceInfo();
   }
@@ -16,4 +18,5 @@ const App = createApp({
 })
 
 App.use(store)
+component.install(App)  // 注册全局组件
 export default App

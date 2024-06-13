@@ -29,3 +29,9 @@ declare namespace NodeJS {
 declare module '@tarojs/components' {
   export * from '@tarojs/components/types/index.vue3'
 }
+
+interface HttpResponse {
+  code: number;
+  data: any;
+  msg: string;
+}
