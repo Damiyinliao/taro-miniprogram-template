@@ -5,7 +5,7 @@
 const prettyLog = () => {
   const isDevelopment = process.env.NODE_ENV === 'development';
   const isProduction = process.env.NODE_ENV === 'production' || !isDevelopment;
-  const isEmpty = (value: any) => {
+  const isEmpty = (value) => {
     return value == null || value === undefined || value === '';
   };
   const prettyPrint = (title: string, text: string, color: string) => {

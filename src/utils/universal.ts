@@ -19,11 +19,7 @@ export function copySomething(value: number|string) {
   Taro.setClipboardData({
     data: value.toString(),
     success: function () {
-      Taro.showToast({
-        title: '复制成功',
-        icon: 'success',
-        duration: 2000
-      })
+      Taro.showToast({ title: '复制成功', icon: 'success', duration: 2000 });
     }
   })
 }
