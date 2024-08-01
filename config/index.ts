@@ -1,30 +1,38 @@
-import { defineConfig, type UserConfigExport } from '@tarojs/cli'
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
-import devConfig from './dev'
-import prodConfig from './prod'
-import path from 'path'
-import { log } from '@/utils'
+import { defineConfig, type UserConfigExport } from '@tarojs/cli';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import devConfig from './dev';
+import prodConfig from './prod';
+import path from 'path';
+import ComponentsPlugin from 'unplugin-vue-components/webpack';
+import NutUIResolver from '@nutui/auto-import-resolver';
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig(async (merge, { command, mode }) => {
-  log.info('command', command)
-  log.info('mode', mode)
+  console.log('command', command)
+  console.log('mode', mode)
   const baseConfig: UserConfigExport = {
     projectName: 'taro-miniprogram-template',
     date: '2024-2-27',
-    designWidth: 750,
-    deviceRatio: {
-      640: 2.34 / 2,
-      750: 1,
-      375: 2,
-      828: 1.81 / 2
-    },
     alias: {
       '@': path.resolve(__dirname, '..', 'src')
     },
     sourceRoot: 'src',
     outputRoot: 'dist',
     plugins: ['@tarojs/plugin-html'], // 配置需要使用的 Taro 插件
+    designWidth (input) {
+      // 配置 NutUI 375 尺寸
+      if (input?.file?.replace(/\\+/g, '/').indexOf('@nutui') > -1) {
+        return 375
+      }
+      // 全局使用 Taro 默认的 750 尺寸
+      return 750
+    },
+    deviceRatio: {
+      640: 2.34 / 2,
+      750: 1,
+      375: 2,
+      828: 1.81 / 2
+    },
     defineConstants: {
     },
     copy: {
@@ -64,7 +72,14 @@ export default defineConfig(async (merge, { command, mode }) => {
         }
       },
       webpackChain(chain) {
-        chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
+        chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin);
+        chain.plugin('unplugin-vue-components').use(ComponentsPlugin({
+          include: [
+            /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+            /\.vue$/, /\.vue\?vue/, // .vue
+          ],
+          resolvers: [NutUIResolver({taro: true})]
+        }))
       }
     },
     h5: {
@@ -93,7 +108,10 @@ export default defineConfig(async (merge, { command, mode }) => {
         }
       },
       webpackChain(chain) {
-        chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
+        chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin);
+        chain.plugin('unplugin-vue-components').use(ComponentsPlugin({
+          resolvers: [NutUIResolver({taro: true})]
+        }));
       },
     },
     rn: {
@@ -112,3 +130,4 @@ export default defineConfig(async (merge, { command, mode }) => {
   // 生产构建配置（默认开启压缩混淆等）
   return merge({}, baseConfig, prodConfig)
 })
+

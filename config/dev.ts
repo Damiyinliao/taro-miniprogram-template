@@ -1,9 +1,12 @@
 import type { UserConfigExport } from "@tarojs/cli";
 export default {
-   logger: {
+  plugins: ['@tarojs/plugin-vue-devtools'],
+  logger: {
     quiet: false,
     stats: true
   },
-  mini: {},
+  mini: {
+
+  },
   h5: {}
 } satisfies UserConfigExport
