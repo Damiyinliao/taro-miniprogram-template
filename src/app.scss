@@ -3,37 +3,6 @@ page {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  // padding-bottom: env(safe-area-inset-bottom);
+  --safe-area-bottom: env(safe-area-inset-bottom);
 }
-
-.text-left {
-  text-align: left;
-}
-.text-right {
-  text-align: right;
-}
-.text-center {
-  text-align: center;
-}
-.flex {
-  display: flex;
-  align-items: center;
-}
-.flex-1 {
-  flex: 1;
-}
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.flex-column {
-  display: flex;
-  flex-direction: column;
-}
-.flex-column-center {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+@import "./styles/universal.css";
