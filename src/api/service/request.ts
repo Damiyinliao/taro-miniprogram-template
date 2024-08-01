@@ -41,7 +41,6 @@ class RequestHttp {
      * @description 响应拦截器
      * @param {AxiosResponse} response 响应结果
      */
-
     this.service.interceptors.response.use(
       (response: AxiosResponse) => {
         const key = response.config.url + '&' + response.config.method;
