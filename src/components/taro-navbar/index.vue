@@ -73,8 +73,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   title: '',
   titleSize: 16,
-  color: '#000000',
-  background: '#ffffff',
+  color: '#000',
+  background: '#fff',
   back: true,
   delta: 1,
   loading: false,
@@ -87,7 +87,7 @@ const wrapperStyle = computed(() => {
   return {
     height: `${app.navHeight}px`,
     opacity: 1,
-    background: props.background,
+    '--nav-bar-background': props.background,
     '--nav-height': `${app.navHeight}px`,
     '--nav-padding-left': `${app.leftInnerPadding}px`,
     '--nav-padding-right': `${app.rightInnerPadding}px`,
@@ -119,6 +119,8 @@ function onHome() {
 .custom-navbar {
   position: relative;
   overflow: hidden;
+  background-color: var(--nav-bar-background);
+  z-index: 9999;
   &_inner {
     position: fixed;
     top: 0;
@@ -132,6 +134,7 @@ function onHome() {
     display: flex;
     flex-direction: row;
     align-items: center;
+    background-color: var(--nav-bar-background);
   }
   &__left {
     position: relative;
