@@ -1,39 +1,71 @@
 <template>
-  <view v-if="show" class="modal-mask">
-    <view class="modal-container">
-      <view class="modal-header">
-        <slot name="header">default header</slot>
-      </view>
-
-      <view class="modal-body">
-        <slot name="body">default body</slot>
-      </view>
-
-      <view class="modal-footer">
-        <slot name="footer">
-          default footer
-          <button class="modal-default-button" @tap="$emit('close')">OK</button>
-        </slot>
+  <Transition name="modal">
+    <view v-if="show" class="modal-mask">
+      <view class="modal-container">
+        <view class="modal-container__inner">
+          <view class="modal-header">
+            <view v-if="props.title" class="modal-header__title">{{ props.title }}</view>
+            <slot v-else name="header"></slot>
+          </view>
+          <view class="modal-body">
+            <slot name="body"></slot>
+          </view>
+        </view>
+        <view class="modal-footer">
+          <slot name="footer">
+            <view class="modal-footer__content">
+              <view class="modal-footer__btn" v-if="showCancel" @tap="onCancel()">取消</view>
+              <view class="modal-footer__btn" @tap="onConfirm">确定</view>
+            </view>
+          </slot>
+        </view>
       </view>
     </view>
-  </view>
+  </Transition>
 </template>
 <script setup lang="ts">
-defineProps({
-  show: {
-    type: Boolean,
-    default: false
+import { computed } from 'vue';
+
+interface Props {
+  title?: string
+  visible: boolean;
+  showCancel?: boolean;
+}
+
+interface Emits {
+  (e: 'update:visible', visible: boolean): void;
+  (e: 'confirm'): void
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  showCancel: true
+});
+const emit = defineEmits<Emits>();
+
+const show = computed({
+  get() {
+    return props.visible
   },
-  close: {
-    type: Function,
-    default: () => {}
+  set(val) {
+    onCancel(val)
   }
 })
+
+function onCancel(val: boolean = false) {
+  setTimeout(() => {
+    emit('update:visible', val)
+  }, 50)
+}
+
+function onConfirm() {
+  emit('confirm');
+  onCancel()
+}
 </script>
-<style>
+<style lang="scss">
 .modal-mask {
   position: fixed;
-  z-index: 9998;
+  z-index: 10000;
   top: 0;
   left: 0;
   width: 100%;
@@ -44,18 +76,26 @@ defineProps({
 }
 
 .modal-container {
-  width: 300px;
+  width: 80%;
   margin: auto;
-  padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
+  border-radius: 24px;
+  overflow: hidden;
+  &__inner {
+    padding: 30px 30px;
+  }
 }
 
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
+.modal-header {
+  &__title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    padding: 20px 0;
+  }
 }
 
 .modal-body {
@@ -64,6 +104,28 @@ defineProps({
 
 .modal-default-button {
   float: right;
+}
+
+.modal-footer {
+  position: relative;
+  border-top: 2px solid #f1f1f1;
+  &__content {
+    display: flex;
+  }
+  &__btn {
+    flex: 1;
+    font-weight: bold;
+    font-size: 32px;
+    text-align: center;
+    padding: 30px 0;
+    &:last-child {
+      border-left: 1px solid #f1f1f1;
+      color: #576b95;
+    }
+    &:active {
+      background-color: #f1f1f1;
+    }
+  }
 }
 
 /*
