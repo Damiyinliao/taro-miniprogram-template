@@ -1,29 +1,87 @@
 <template>
   <view class="mine-page">
-    <TaroNavbar bgColor="transparent" :back="false" />
+    <TaroNavbar background="transparent" :back="false" />
     <view class="personal-info">
       <view class="avatar">
         <image src=""></image>
       </view>
       <view class="intro">
-        <view class="nickname">
-          {{ '大米饮料' }}
+        <view class="nickname">{{ '大米饮料' }}</view>
+        <view class="phone margin-top-auto">手机：{{ '13567950783' }}</view>
+        <view class="description">微信小程序开发档案</view>
+      </view>
+    </view>
+    <view class="ui-modules">
+      <view class="module-item" v-for="(item, index) in moduleList" :key="index" @tap="leaveFor(item.page)">
+        <image v-if="item.icon.includes('images')" class="module-item__icon" :src="item.icon"></image>
+        <svg-icon v-else :name="item.icon" radius="50%" :size="48"></svg-icon>
+        <view class="module-item__desc text-ellipsis">
+          <view class="module-name">{{ item.name }}</view>
+          <view class="module-desc">{{ item.desc }}</view>
         </view>
-        <view class="phone">
-          手机：{{ '13567950783' }}
+      </view>
+    </view>
+    <view class="more-list">
+      <view
+        class="more-list__item"
+        v-for="(item, index) in moreList"
+        :key="index"
+        @tap="navTo(item.page)"
+      >
+        <view class="flex" style="gap: 5px;">
+          <font-icon name="zujianliebiao" />
+          <text>{{ item.name }}</text>
         </view>
+        <font-icon name="fudianshouzhan" />
       </view>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
+// import Taro from '@tarojs/taro';
+import { navTo } from '@/utils';
+import IconTaroUI from '@/assets/images/logo-taro.png';
+
+const moduleList = [
+  {
+    name: 'We UI',
+    icon: 'wechat',
+    page: '/pages_sub/ui/list/index?anchor=we',
+    desc: '微信小程序自身UI'
+  },
+  {
+    name: 'Taro UI',
+    icon: IconTaroUI,
+    page: '/pages_sub/ui/list/index?anchor=taro',
+    desc: '一套基于 Taro 框架开发的多端 UI 组件库'
+  },
+  {
+    name: 'Nut UI',
+    icon: 'jd',
+    page: '/pages_sub/ui/list/index?anchor=nut',
+    desc: '京东Nut UI组件库'
+  }
+];
+
+const moreList = [
+  {
+    name: 'Custom Components',
+    icon: 'component',
+    page: '/pages_sub/components/list/index'
+  }
+]
+
+function leaveFor(url: string) {
+  navTo(url);
+}
 </script>
 
 <style lang="scss">
 .mine-page {
   padding: 0 32px;
   color: rgba(0, 0, 0, 0.8);
+  font-size: 32px;
   .personal-info {
     display: flex;
     .avatar {
@@ -41,8 +99,59 @@
       }
       .phone {
         margin-top: 20px;
-        color: rgba(0, 0, 0, 0.3);
+        color: #a5a5a5;
         font-size: 28px;
+      }
+      .description {
+        color: #a5a5a5;
+        font-size: 28px;
+      }
+    }
+  }
+  .ui-modules {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 46px;
+    .module-item {
+      width: 330px;
+      height: 144px;
+      box-sizing: border-box;
+      padding: 24px;
+      background-color: #fff;
+      border-radius: 24px;
+      display: flex;
+      gap: 16px;
+      &__icon {
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+      }
+      &__desc {
+        flex: 1;
+      }
+      .module-name {
+        padding: 4px 0;
+      }
+      .module-desc {
+        color: rgba(0, 0, 0, 0.3);
+        font-size: 24px;
+      }
+    }
+  }
+  .more-list {
+    background-color: #fff;
+    border-radius: 24px;
+    padding: 24px;
+    margin-top: 40px;
+    &__item {
+      border-bottom: 2px solid #EDEDED;
+      padding: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      &:active {
+        background-color: #f1f1f1;
       }
     }
   }

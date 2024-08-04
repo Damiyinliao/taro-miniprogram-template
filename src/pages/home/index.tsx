@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 import { ref, defineComponent } from 'vue';
 import { View, Text } from '@tarojs/components';
-import CustomNavbar from '@/components/navbar/index.vue'
+import TaroNavbar from '@/components/taro-navbar/index.vue'
 import './index.scss'
 
 export default defineComponent({
@@ -21,7 +21,7 @@ export default defineComponent({
     return () => {
       return (
         <View>
-          <CustomNavbar title="首页" loading={loading.value} homeButton={true} />
+          <TaroNavbar title="首页" loading={loading.value} back={false} />
           <Text>{msg.value}</Text>
         </View>
       )

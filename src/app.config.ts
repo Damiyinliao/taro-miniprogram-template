@@ -14,24 +14,13 @@ export default defineAppConfig({
       root: 'pages_sub/ui',
       pages:[
         'list/index',
-        'we/list/index',
-        'we/icon/index',
-        'we/picker/index',
-        'we/button/index'
+        'icon/index',
+        'button/index',
+        'switch/index',
+        'picker/index',
+        'view/index'
       ]
-    },
-    // {
-    //   root: 'pages_sub/ui/nut',
-    //   pages:[
-
-    //   ]
-    // },
-    // {
-    //   root: 'pages_sub/ui/taro',
-    //   pages:[
-
-    //   ]
-    // }
+    }
   ],
   tabBar: {
     color: '#000',

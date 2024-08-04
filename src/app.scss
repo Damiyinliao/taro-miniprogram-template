@@ -3,6 +3,10 @@ page {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  background-color: #F4F5F7;
   --safe-area-bottom: env(safe-area-inset-bottom);
+  --primary-color: #00aa88;
 }
-@import "./styles/universal.css";
+@import "./styles/universal.scss";
+@import "./styles/iconfont.scss";
+@import "taro-ui-vue3/dist/style/components/drawer.scss";
