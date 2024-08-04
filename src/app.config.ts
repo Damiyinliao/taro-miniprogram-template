@@ -5,11 +5,33 @@ export default defineAppConfig({
   ],
   subPackages: [
     {
-      root: 'pages_sub/taro-ui',
+      root: 'pages_sub/components',
       pages: [
-        'picker/index'
+        'list/index',
       ]
-    }
+    },
+    {
+      root: 'pages_sub/ui',
+      pages:[
+        'list/index',
+        'we/list/index',
+        'we/icon/index',
+        'we/picker/index',
+        'we/button/index'
+      ]
+    },
+    // {
+    //   root: 'pages_sub/ui/nut',
+    //   pages:[
+
+    //   ]
+    // },
+    // {
+    //   root: 'pages_sub/ui/taro',
+    //   pages:[
+
+    //   ]
+    // }
   ],
   tabBar: {
     color: '#000',
