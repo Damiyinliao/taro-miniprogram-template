@@ -14,6 +14,9 @@
 .flex-1 {
   flex: 1;
 }
+.justify-between {
+  justify-content: space-between;
+}
 .flex-center {
   display: flex;
   justify-content: center;
@@ -23,9 +26,21 @@
   display: flex;
   flex-direction: column;
 }
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
 .flex-column-center {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.margin-top-auto {
+  margin-top: auto;
+}
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
