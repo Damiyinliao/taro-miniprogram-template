@@ -14,14 +14,20 @@ import { computed } from 'vue';
 interface Props {
   title: string;
   border?: boolean;
-  direction: 'row' | 'column'
+  direction?: 'row' | 'column';
+  gap?: string | number;
+  wrap?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  direction: 'row'
+  direction: 'row',
+  gap: 10,
+  wrap: true
 })
 const wrapperStyle = computed(() => ({
-  flexDirection: props.direction
+  flexDirection: props.direction,
+  gap: typeof props.gap === 'string' ? props.gap : `${props.gap}rpx`,
+  flexWrap: props.wrap ? 'wrap' : 'nowrap'
 }))
 </script>
 

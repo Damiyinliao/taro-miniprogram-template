@@ -119,7 +119,7 @@ function onConfirm() {
     text-align: center;
     padding: 30px 0;
     &:last-child {
-      border-left: 1px solid #f1f1f1;
+      border-left: 2px solid #f1f1f1;
       color: #576b95;
     }
     &:active {
