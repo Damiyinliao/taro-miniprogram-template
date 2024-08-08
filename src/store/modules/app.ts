@@ -10,10 +10,18 @@ export const useAppStore = defineStore({
     topInnerPadding: 0, // 导航栏上侧内边距
     leftContainerWidth: 0, // 导航栏左侧容器宽度
     platform: '', // 平台
+    /** 选中的tab索引 */
+    selectedTabIndex: 0
   }),
   getters: {
   },
   actions: {
+    setAppState(...args: any) {
+      this.$patch({ [args[0]]: args[1] });
+    },
+    setTabIndex(index: number) {
+      this.selectedTabIndex = index;
+    },
     setDeviceInfo() {
       const systemInfo = Taro.getSystemInfoSync();  // 获取设备信息
       console.log('systemInfo--设备信息', systemInfo);
