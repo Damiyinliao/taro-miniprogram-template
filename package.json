@@ -1,8 +1,8 @@
 {
-  "name": "prompt",
+  "name": "taro-miniprogram-template",
   "version": "1.0.0",
   "private": true,
-  "description": "催催，治疗拖延症",
+  "description": "taro微信小程序全能模板",
   "templateInfo": {
     "name": "default",
     "typescript": true,
@@ -30,7 +30,9 @@
     "dev:jd": "npm run build:jd -- --watch",
     "dev:quickapp": "npm run build:quickapp -- --watch",
     "dev:harmony-hybrid": "npm run build:harmony-hybrid -- --watch",
-    "test": "jest"
+    "test": "jest",
+    "generate-icons": "node generateIconMap.js",
+    "build": "npm run generate-icons && taro build --type weapp"
   },
   "browserslist": [
     "last 3 versions",
@@ -60,7 +62,9 @@
     "axios-miniprogram": "^2.7.2",
     "dayjs": "^1.11.11",
     "pinia": "^2.0.36",
-    "vue": "^3.2.40"
+    "taro-ui-vue3": "1.0.0-alpha.21",
+    "vue": "^3.2.40",
+    "vue-router": "^4.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.13.0",
