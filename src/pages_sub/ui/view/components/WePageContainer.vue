@@ -1,5 +1,5 @@
 <template>
-  <view class="we-page-container">
+  <view class="we-page-container flex-col">
     <example-item title="page-container 弹出位置">
       <button type="primary" size="mini" @tap="popup" data-position="right">右侧弹出</button>
       <button type="primary" size="mini" @tap="popup" data-position="top">顶部弹出</button>
@@ -89,10 +89,12 @@ function exit() {
 </script>
 
 <style lang="scss">
+.we-page-container {
+  gap: 20px;
+}
 .page-container-inner {
   width: 100%;
   height: 100%;
   min-height: 600px;
-  // background-color: grey;
 }
 </style>
