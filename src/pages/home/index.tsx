@@ -1,13 +1,14 @@
 import Taro from '@tarojs/taro';
 import { ref, defineComponent } from 'vue';
-import { View, Text } from '@tarojs/components';
-import TaroNavbar from '@/components/taro-navbar/index.vue'
+import { View, Text, Button } from '@tarojs/components';
+import TaroNavbar from '@/components/taro-navbar/index.vue';
+import router from '@/router';
 import './index.scss'
 
 export default defineComponent({
   name: 'Home',
   setup() {
-    const msg = ref('Hello world');
+
     const loading = ref(false);
 
     Taro.usePullDownRefresh(() => {
@@ -18,11 +19,16 @@ export default defineComponent({
       }, 1000)
     });
 
+    function handleNav() {
+      router.push('/index')
+    }
+
     return () => {
       return (
         <View>
           <TaroNavbar title="首页" loading={loading.value} back={false} />
-          <Text>{msg.value}</Text>
+          {/* 必须使用layout布局才能使用router来进行导航 */}
+          {/* <Button type="primary" size='mini' onClick={handleNav}>跳转到index页面</Button> */}
         </View>
       )
     }
