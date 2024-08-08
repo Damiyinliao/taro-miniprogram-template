@@ -2,11 +2,11 @@
   <view class="mine-page">
     <TaroNavbar background="transparent" :back="false" />
     <view class="personal-info">
-      <view class="avatar">
-        <image src=""></image>
+      <view class="avatar" @tap="navTo('/pages/views/profile/index')">
+        <image class="w-full h-full" :src="avatar"></image>
       </view>
       <view class="intro">
-        <view class="nickname">{{ '大米饮料' }}</view>
+        <view class="nickname">{{ userInfo.nickName }}</view>
         <view class="phone margin-top-auto">手机：{{ '13567950783' }}</view>
         <view class="description">微信小程序开发档案</view>
       </view>
@@ -14,7 +14,7 @@
     <view class="ui-modules">
       <view class="module-item" v-for="(item, index) in moduleList" :key="index" @tap="leaveFor(item.page)">
         <image v-if="item.icon.includes('images')" class="module-item__icon" :src="item.icon"></image>
-        <svg-icon v-else :name="item.icon" radius="50%" :size="48"></svg-icon>
+        <weapp-svg v-else :name="item.icon" radius="50%" :size="48"></weapp-svg>
         <view class="module-item__desc text-ellipsis">
           <view class="module-name">{{ item.name }}</view>
           <view class="module-desc">{{ item.desc }}</view>
@@ -40,9 +40,13 @@
 
 <script setup lang="ts">
 // import Taro from '@tarojs/taro';
+import { computed, ref } from 'vue';
+import { useUserStore } from '@/store';
 import { navTo } from '@/utils';
 import IconTaroUI from '@/assets/images/logo-taro.png';
 
+const user = useUserStore();
+const avatar = computed(() => user.getAvatar)
 const moduleList = [
   {
     name: 'We UI',
@@ -71,6 +75,13 @@ const moreList = [
     page: '/pages_sub/components/list/index'
   }
 ]
+
+// const canIUseGetUserProfile = ref(false);
+const userInfo = ref({
+  nickName: '',
+  avatarUrl: '',
+  gender: 0,
+})
 
 function leaveFor(url: string) {
   navTo(url);
