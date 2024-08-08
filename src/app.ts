@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
 import { setupStore, useAppStore } from './store';
 import { setupComponents } from './components';
+// import { setupRouter } from './router';
 import { createUI } from 'taro-ui-vue3';
 import { log } from './utils';
 import './app.scss';
@@ -21,4 +22,5 @@ const App = createApp({
 App.use(tuv3);
 setupStore(App);
 setupComponents(App);  // 注册全局组件
+// setupRouter(App); // 使用vue-router时，需要将pages改为 ['layout/index/index']，只可填写一个根页面
 export default App;

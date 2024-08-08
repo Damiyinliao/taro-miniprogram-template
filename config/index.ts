@@ -72,6 +72,7 @@ export default defineConfig(async (merge, { command, mode }) => {
         }
       },
       webpackChain(chain) {
+        chain.module.rule('svg').test(/\.svg$/).type('asset/source');
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin);
         chain.plugin('unplugin-vue-components').use(ComponentsPlugin({
           include: [
@@ -80,6 +81,11 @@ export default defineConfig(async (merge, { command, mode }) => {
           ],
           resolvers: [NutUIResolver({taro: true})]
         }))
+      },
+      imageUrlLoaderOption: {
+        limit: 5000,
+        exclude: [path.resolve(__dirname, '../src/assets/svg')],
+        name: 'static/images/[name].[hash:8].[ext]',
       },
       miniCssExtractPluginOption: {
         //忽略css文件引入顺序
@@ -116,6 +122,27 @@ export default defineConfig(async (merge, { command, mode }) => {
         chain.plugin('unplugin-vue-components').use(ComponentsPlugin({
           resolvers: [NutUIResolver({taro: true})]
         }));
+        chain.merge({
+          module: {
+            rule: {
+              image: {
+                test: /\.(png|jpe?g|gif|bmp)$/,
+                type: 'asset',
+                parser: {
+                  dataUrlCondition: (asset): boolean => {
+                    return asset.size <= 500;
+                  },
+                },
+                generator: {
+                  publicPath: '/',
+                  filename() {
+                    return 'static/images/[name][ext]';
+                  },
+                },
+              },
+            }
+          }
+        })
       },
     },
     rn: {

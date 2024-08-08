@@ -1,42 +1,57 @@
+
+const subPackagesConfig = [
+  {
+    root: 'pages/views',
+    pages: [
+      'profile/index',
+    ]
+  },
+  {
+    root: 'pages_sub/components',
+    pages: [
+      'list/index',
+    ]
+  },
+  {
+    root: 'pages_sub/ui',
+    pages:[
+      'list/index',
+      'icon/index',
+      'button/index',
+      'switch/index',
+      'picker/index',
+      'view/index'
+    ]
+  }
+]
+
 export default defineAppConfig({
+  componentFramework: 'glass-easel',
   pages: [
+    // 'layout/index/index',
     'pages/home/index',
     'pages/mine/index',
   ],
   subPackages: [
-    {
-      root: 'pages_sub/components',
-      pages: [
-        'list/index',
-      ]
-    },
-    {
-      root: 'pages_sub/ui',
-      pages:[
-        'list/index',
-        'icon/index',
-        'button/index',
-        'switch/index',
-        'picker/index',
-        'view/index'
-      ]
-    }
+    ...subPackagesConfig
   ],
+  // tabBar: defaultTabbarConfig,
   tabBar: {
-    color: '#000',
-    selectedColor: '#0E595F',
+    custom: true,
+    color: '#727171',
+    selectedColor: '#000',
     list: [
       {
         pagePath: 'pages/home/index',
-        text: '首页',
-        iconPath: 'assets/images/home.png',
-        selectedIconPath: 'assets/images/home-selected.png'
+        iconPath: 'assets/tabbar/island.png',
+        selectedIconPath: 'assets/tabbar/island-selected.png',
+        text: '首页'
       },
       {
         pagePath: 'pages/mine/index',
-        text: '我的',
-        iconPath: 'assets/images/smile.png',
-        selectedIconPath: 'assets/images/smile-selected.png'
+        iconPath: 'assets/tabbar/mine.png',
+        selectedIconPath: 'assets/tabbar/mine-selected.png',
+        text: '我的'
       }
     ]
   },
@@ -46,5 +61,16 @@ export default defineAppConfig({
     navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black'
+  },
+  renderer: 'skyline',
+  lazyCodeLoading: 'requiredComponents',
+  rendererOptions: {
+    skyline : {
+      defaultDisplayBlock: true,
+      defaultContentBox: true,
+      disableABTest: true,
+      sdkVersionBegin: "3.0.0",
+      sdkVersionEnd: "15.255.255"
+    }
   }
 })
