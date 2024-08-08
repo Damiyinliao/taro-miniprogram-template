@@ -3,16 +3,26 @@
     <TaroNavbar title="列表" />
     <view class="module-list" v-for="item in moduleList" :key="item.id" :id="item.id">
       <view class="module-list__title">{{ item.name }}</view>
-      <view class="module-list__item" v-for="(group, idx) in item.groups" :key="idx">
-        <view class="module-list__icon flex-center">
-          <image :src="group.icon"></image>
+      <view class="module-list__item" v-for="(group, idx) in item.list" :key="idx">
+        <view class="flex module-list__item-header" @tap="handleUnfold(group.id)">
+          <view class="module-list__icon flex-center">
+            <image :src="group.icon"></image>
+          </view>
+          <view class="module-list__info">
+            <view class="title">{{ group.name }}</view>
+            <view class="content">{{ group.desc }}</view>
+          </view>
+          <view class="module-list__arrow flex-center" :class="{active: group.id === activeGroupId}">
+            <text class="guide-icon icon-font icon-fudianshouzhan"></text>
+          </view>
         </view>
-        <view class="module-list__info">
-          <view class="title">{{ group.name }}</view>
-          <view class="content">{{ group.desc }}</view>
-        </view>
-        <view class="module-list__arrow flex-center" @tap="showDrawer(group.list)">
-          <text class="icon-font icon-fudianshouzhan"></text>
+        <view class="group-pages" :class="{active: group.id === activeGroupId}">
+          <view class="navigator-box" :class="{active: group.id === activeGroupId}">
+            <view class="navigator-box__item" v-for="itemm in group.pages" :key="itemm.name" @tap="navTo(itemm.page)">
+              <view>{{ itemm.name }}</view>
+              <text class="icon-font icon-fudianshouzhan"></text>
+            </view>
+          </view>
         </view>
       </view>
     </view>
@@ -49,17 +59,19 @@ type GroupList = {
 
 const router = Taro.useRouter()
 const app = useAppStore();
+const activeGroupId = ref('');
 
 const moduleList = [
   {
     name: 'WeUI',
     id: 'we',
-    groups: [
+    list: [
       {
+        id: 'weui-basic',
         name: '基础',
         icon: IconBasic,
         desc: '包含图标、按钮等',
-        list: [
+        pages: [
           {
             name: 'Button',
             page: '/pages_sub/ui/button/index?ui=we'
@@ -71,10 +83,11 @@ const moduleList = [
         ]
       },
       {
+        id: 'weui-form',
         name: '表单',
         icon: IconForm,
         desc: '包含标签栏、导航栏、分段器等',
-        list: [
+        pages: [
           {
             name: 'Switch',
             page: '/pages_sub/ui/switch/index?ui=we'
@@ -86,10 +99,11 @@ const moduleList = [
         ]
       },
       {
+        id: 'weui-view',
         name: '视图',
         icon: IconView,
         desc: '包含弹窗、标签等',
-        list: [
+        pages: [
           {
             name: 'View',
             page: '/pages_sub/ui/view/index?ui=we'
@@ -101,12 +115,13 @@ const moduleList = [
   {
     id: 'nut',
     name: 'NutUI',
-    groups: [
+    list: [
       {
+        id: 'nutui-from',
         name: '表单',
         icon: IconForm,
         desc: '包含标签栏、导航栏、分段器等',
-        list: [
+        pages: [
           {
             name: 'Icon',
             page: '/pages_sub/ui/icon/index'
@@ -122,12 +137,13 @@ const moduleList = [
   {
     id: 'taro',
     name: 'TaroUI',
-    groups: [
+    list: [
       {
+        id: 'taroui-form',
         name: '表单',
         icon: IconForm,
         desc: '包含标签栏、导航栏、分段器等',
-        list: [
+        pages: [
           {
             name: 'Icon',
             page: '/pages_sub/ui/icon/index'
@@ -146,7 +162,17 @@ const drawerVisible = ref(false);
 const drawerList = ref<GroupList[]>([])
 const drawerStyle = computed(() => ({
   paddingTop: `${app.navHeight}px`
-}))
+}));
+
+function handleUnfold(id: string) {
+  if (activeGroupId.value && activeGroupId.value !== id) {
+    activeGroupId.value = id
+  } else if (!activeGroupId.value) {
+    activeGroupId.value = id
+  } else {
+    activeGroupId.value = ''
+  }
+}
 
 function showDrawer(list: GroupList[]) {
   drawerList.value = list;
@@ -184,10 +210,7 @@ Taro.useLoad(onLoad);
     }
     &__item {
       display: flex;
-      align-items: center;
-      gap: 24px;
-      height: 144px;
-      padding: 0 30px;
+      flex-direction: column;
       background-color: #fff;
       box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.04);
       border-radius: 10px;
@@ -195,6 +218,11 @@ Taro.useLoad(onLoad);
       &:last-child {
         margin-bottom: 0;
       }
+    }
+    &__item-header {
+      padding: 20px 30px;
+      flex: 1;
+      gap: 24px;
     }
     &__icon {
       width: 70px;
@@ -227,6 +255,10 @@ Taro.useLoad(onLoad);
       background: #009688;
       box-shadow: 4px 10px 30px 0 rgba(120, 164, 250, 0.3);
       border-radius: 50%;
+      transition: all .3s;
+      &.active {
+        transform: rotate(90deg);
+      }
     }
   }
   .drawer-wrapper {
@@ -242,6 +274,36 @@ Taro.useLoad(onLoad);
       border-bottom: 2px solid #eee;
       &:active {
         background-color: #eee;
+      }
+    }
+  }
+  .group-pages {
+    height: 0;
+    overflow: hidden;
+    &.active {
+      height: auto;
+    }
+    .navigator-box {
+      opacity: 0;
+      position: relative;
+      background-color: #fff;
+      line-height: 1.41176471;
+      font-size: 34px;
+      transform: translateY(-50%);
+      transition: .3s;
+      &.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      &__item {
+        border-top: 1px solid rgba(0,0,0,0.1);
+        padding: 20px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        &:active {
+          background-color: #f1f1f1;
+        }
       }
     }
   }
