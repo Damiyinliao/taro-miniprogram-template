@@ -6,3 +6,8 @@ node_modules/
 .DS_Store
 .swc
 .idea
+.env.dev
+.env.prod
+.env.test
+components.d.ts
+pnpm-lock.yaml

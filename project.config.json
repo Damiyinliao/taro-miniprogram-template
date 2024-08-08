@@ -1,8 +1,8 @@
 {
   "miniprogramRoot": "./dist",
-  "projectname": "prompt",
-  "description": "testAppId",
-  "appid": "",
+  "projectname": "taro-miniprogram-template",
+  "description": "my miniprogram develoption notes",
+  "appid": "wx86f3f7183c2bf917",
   "setting": {
     "urlCheck": true,
     "es6": false,

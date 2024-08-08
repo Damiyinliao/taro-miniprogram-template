@@ -7,7 +7,18 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    Navbar: typeof import('./src/components/navbar/index.vue')['default']
+    ExampleItem: typeof import('./src/components/example-item/index.vue')['default']
+    FontIcon: typeof import('./src/components/font-icon/index.vue')['default']
+    'Index.old': typeof import('./src/components/svg-icon/index.old.vue')['default']
+    Modal: typeof import('./src/components/modal/index.vue')['default']
+    ModuleItem: typeof import('./src/components/module-item/index.vue')['default']
+    PageTitle: typeof import('./src/components/page-title/index.vue')['default']
+    PageWrapper: typeof import('./src/components/page-wrapper/index.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/svg-icon/index.vue')['default']
+    TaroImage: typeof import('./src/components/taro-image/index.vue')['default']
+    TaroNavbar: typeof import('./src/components/taro-navbar/index.vue')['default']
+    WeappSvg: typeof import('./src/components/weapp-svg/index.vue')['default']
   }
 }
