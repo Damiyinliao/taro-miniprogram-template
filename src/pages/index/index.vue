@@ -1,7 +1,7 @@
 <template>
-  <view class="index">
-    <text>{{ msg }}</text>
-  </view>
+  <page-wrapper nav-title="index">
+    <view class="flex-center">{{ msg }}</view>
+  </page-wrapper>
 </template>
 
 <script>
