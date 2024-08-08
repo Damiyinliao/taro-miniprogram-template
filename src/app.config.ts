@@ -5,30 +5,12 @@ const subPackagesConfig = [
     pages: [
       'profile/index',
     ]
-  },
-  {
-    root: 'pages_sub/components',
-    pages: [
-      'list/index',
-    ]
-  },
-  {
-    root: 'pages_sub/ui',
-    pages:[
-      'list/index',
-      'icon/index',
-      'button/index',
-      'switch/index',
-      'picker/index',
-      'view/index'
-    ]
   }
 ]
 
 export default defineAppConfig({
-  componentFramework: 'glass-easel',
+  // componentFramework: 'glass-easel',
   pages: [
-    // 'layout/index/index',
     'pages/home/index',
     'pages/mine/index',
   ],
@@ -62,15 +44,15 @@ export default defineAppConfig({
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black'
   },
-  renderer: 'skyline',
-  lazyCodeLoading: 'requiredComponents',
-  rendererOptions: {
-    skyline : {
-      defaultDisplayBlock: true,
-      defaultContentBox: true,
-      disableABTest: true,
-      sdkVersionBegin: "3.0.0",
-      sdkVersionEnd: "15.255.255"
-    }
-  }
+  // renderer: 'skyline',
+  // lazyCodeLoading: 'requiredComponents',
+  // rendererOptions: {
+  //   skyline : {
+  //     defaultDisplayBlock: true,
+  //     defaultContentBox: true,
+  //     disableABTest: true,
+  //     sdkVersionBegin: "3.0.0",
+  //     sdkVersionEnd: "15.255.255"
+  //   }
+  // }
 })
