@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "./",
-  "projectname": "prompt",
-  "appid": "testAppId",
+  "projectname": "taro微信小程序全能模板",
+  "appid": "wx86f3f7183c2bf917",
   "setting": {
     "es6": false,
     "minified": false

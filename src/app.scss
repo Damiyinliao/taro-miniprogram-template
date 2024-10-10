@@ -8,6 +8,5 @@ page {
   --primary-color: #00aa88;
   --taro-safe-area-height: env(safe-area-inset-bottom);
 }
-@import "./styles/universal.scss";
 @import "./styles/iconfont.scss";
 @import "taro-ui-vue3/dist/style/components/drawer.scss";

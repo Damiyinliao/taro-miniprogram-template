@@ -1,3 +1,4 @@
+import { defaultTabbarConfig } from '@/config/constant';
 
 const subPackagesConfig = [
   {
@@ -7,9 +8,10 @@ const subPackagesConfig = [
     ]
   },
   {
-    root: 'pages_sub/components',
+    root: 'pages_sub/custom-elements',
     pages: [
       'list/index',
+      'tab-swiper/index'
     ]
   },
   {
@@ -35,25 +37,9 @@ export default defineAppConfig({
   subPackages: [
     ...subPackagesConfig
   ],
-  // tabBar: defaultTabbarConfig,
   tabBar: {
     custom: true,
-    color: '#727171',
-    selectedColor: '#000',
-    list: [
-      {
-        pagePath: 'pages/home/index',
-        iconPath: 'assets/tabbar/island.png',
-        selectedIconPath: 'assets/tabbar/island-selected.png',
-        text: '首页'
-      },
-      {
-        pagePath: 'pages/mine/index',
-        iconPath: 'assets/tabbar/mine.png',
-        selectedIconPath: 'assets/tabbar/mine-selected.png',
-        text: '我的'
-      }
-    ]
+    ...defaultTabbarConfig
   },
   window: {
     navigationStyle: 'custom',
@@ -62,15 +48,16 @@ export default defineAppConfig({
     navigationBarTitleText: 'WeChat',
     navigationBarTextStyle: 'black'
   },
-  renderer: 'skyline',
-  lazyCodeLoading: 'requiredComponents',
-  rendererOptions: {
-    skyline : {
-      defaultDisplayBlock: true,
-      defaultContentBox: true,
-      disableABTest: true,
-      sdkVersionBegin: "3.0.0",
-      sdkVersionEnd: "15.255.255"
-    }
-  }
+  /** taro里面不支持这些 */
+  // renderer: 'skyline',
+  // lazyCodeLoading: 'requiredComponents',
+  // rendererOptions: {
+  //   skyline : {
+  //     defaultDisplayBlock: true,
+  //     defaultContentBox: true,
+  //     disableABTest: true,
+  //     sdkVersionBegin: "3.0.0",
+  //     sdkVersionEnd: "15.255.255"
+  //   }
+  // }
 })

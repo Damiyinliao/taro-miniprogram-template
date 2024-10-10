@@ -1,7 +1,7 @@
 <template>
   <Transition name="modal">
-    <view v-if="show" class="modal-mask">
-      <view class="modal-container">
+    <view v-if="show" class="modal-mask" :style="maskStyle">
+      <view class="modal-container" :animation="containerAnimation">
         <view class="modal-container__inner">
           <view class="modal-header">
             <view v-if="props.title" class="modal-header__title">{{ props.title }}</view>
@@ -14,7 +14,7 @@
         <view class="modal-footer">
           <slot name="footer">
             <view class="modal-footer__content">
-              <view class="modal-footer__btn" v-if="showCancel" @tap="onCancel()">取消</view>
+              <view class="modal-footer__btn" v-if="showCancel" @tap="onCancel(false)">取消</view>
               <view class="modal-footer__btn" @tap="onConfirm">确定</view>
             </view>
           </slot>
@@ -23,45 +23,87 @@
     </view>
   </Transition>
 </template>
+
 <script setup lang="ts">
-import { computed } from 'vue';
+import Taro from '@tarojs/taro';
+import { ref, watch } from 'vue';
 
 interface Props {
-  title?: string
+  title?: string;
   visible: boolean;
   showCancel?: boolean;
 }
 
 interface Emits {
   (e: 'update:visible', visible: boolean): void;
-  (e: 'confirm'): void
+  (e: 'confirm'): void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  showCancel: true
+  showCancel: true,
 });
 const emit = defineEmits<Emits>();
 
-const show = computed({
-  get() {
-    return props.visible
-  },
-  set(val) {
-    onCancel(val)
-  }
-})
+const show = ref(false);
+const maskStyle = ref({});
+const containerAnimation = ref({});
 
-function onCancel(val: boolean = false) {
+// 创建背景遮罩动画
+const createMaskAnimation = (opacity: number, duration: number) => {
+  const animation = Taro.createAnimation({
+    duration,
+    timingFunction: 'ease',
+  });
+
+  animation.opacity(opacity).step();
+  return animation.export();
+};
+
+// 创建内容容器动画
+const createContainerAnimation = (opacity: number, scale: number, duration: number) => {
+  const animation = Taro.createAnimation({
+    duration,
+    timingFunction: 'ease',
+  });
+
+  animation.opacity(opacity).scale(scale).step();
+  return animation.export();
+};
+
+const onCancel = (val: boolean = false) => {
   setTimeout(() => {
-    emit('update:visible', val)
-  }, 50)
-}
+    emit('update:visible', val);
+  }, 50);
+};
 
-function onConfirm() {
+const onConfirm = () => {
   emit('confirm');
-  onCancel()
-}
+  onCancel();
+};
+
+// 监听 props.visible 的变化，触发动画
+watch(
+  () => props.visible,
+  (newVal) => {
+    if (newVal) {
+      // 动画进入效果
+      show.value = true;
+      maskStyle.value = createMaskAnimation(1, 300);
+      containerAnimation.value = createContainerAnimation(1, 1, 300);
+    } else {
+      // 动画离开效果
+      containerAnimation.value = createContainerAnimation(0, 0.9, 300);
+      maskStyle.value = createMaskAnimation(0, 300);
+      // 动画结束后隐藏元素
+      setTimeout(() => {
+        show.value = false;
+      }, 300); // 延时与动画时长一致
+    }
+  },
+  { immediate: true }
+);
 </script>
+
 <style lang="scss">
 .modal-mask {
   position: fixed;
@@ -72,6 +114,8 @@ function onConfirm() {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
+  justify-content: center;
+  align-items: center;
   transition: opacity 0.3s ease;
 }
 
@@ -79,11 +123,11 @@ function onConfirm() {
   width: 80%;
   margin: auto;
   background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  transition: all 0.3s ease;
   border-radius: 24px;
   overflow: hidden;
+  transform: scale(0.9); /* 初始缩放值 */
+  opacity: 0; /* 初始透明度 */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* 进入动画 */
   &__inner {
     padding: 30px 30px;
   }
@@ -100,10 +144,6 @@ function onConfirm() {
 
 .modal-body {
   margin: 20px 0;
-}
-
-.modal-default-button {
-  float: right;
 }
 
 .modal-footer {
@@ -126,28 +166,5 @@ function onConfirm() {
       background-color: #f1f1f1;
     }
   }
-}
-
-/*
- * 对于 transition="modal" 的元素来说
- * 当通过 Vue.js 切换它们的可见性时
- * 以下样式会被自动应用。
- *
- * 你可以简单地通过编辑这些样式
- * 来体验该模态框的过渡效果。
- */
-
-.modal-enter-from {
-  opacity: 0;
-}
-
-.modal-leave-to {
-  opacity: 0;
-}
-
-.modal-enter-from .modal-container,
-.modal-leave-to .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
 }
 </style>

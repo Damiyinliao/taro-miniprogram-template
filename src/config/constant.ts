@@ -1,18 +1,18 @@
 export const defaultTabbarConfig = {
-  color: '#000',
-  selectedColor: '#0E595F',
+  color: '#727171',
+  selectedColor: '#000',
   list: [
     {
       pagePath: 'pages/home/index',
-      text: '首页',
-      iconPath: 'assets/images/home.png',
-      selectedIconPath: 'assets/images/home-selected.png'
+      iconPath: 'assets/images/island.png',
+      selectedIconPath: 'assets/images/island-selected.png',
+      text: '首页'
     },
     {
       pagePath: 'pages/mine/index',
-      text: '我的',
-      iconPath: 'assets/images/smile.png',
-      selectedIconPath: 'assets/images/smile-selected.png'
+      iconPath: 'assets/images/mine.png',
+      selectedIconPath: 'assets/images/mine-selected.png',
+      text: '我的'
     }
   ]
 }

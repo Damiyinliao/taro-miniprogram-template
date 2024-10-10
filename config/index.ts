@@ -5,6 +5,7 @@ import prodConfig from './prod';
 import path from 'path';
 import ComponentsPlugin from 'unplugin-vue-components/webpack';
 import NutUIResolver from '@nutui/auto-import-resolver';
+import UnoCSS from '@unocss/webpack';
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig(async (merge, { command, mode }) => {
@@ -74,6 +75,7 @@ export default defineConfig(async (merge, { command, mode }) => {
       webpackChain(chain) {
         chain.module.rule('svg').test(/\.svg$/).type('asset/source');
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin);
+        chain.plugin('unocss').use(UnoCSS());
         chain.plugin('unplugin-vue-components').use(ComponentsPlugin({
           include: [
             /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx

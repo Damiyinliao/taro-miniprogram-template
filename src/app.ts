@@ -5,6 +5,7 @@ import { setupComponents } from './components';
 import { createUI } from 'taro-ui-vue3';
 import { log } from './utils';
 import './app.scss';
+import 'uno.css';
 // 引用全部组件
 const tuv3 = createUI()
 

@@ -29,7 +29,7 @@
         @tap="navTo(item.page)"
       >
         <view class="flex" style="gap: 5px;">
-          <font-icon name="zujianliebiao" />
+          <font-icon :name="item.icon" />
           <text>{{ item.name }}</text>
         </view>
         <font-icon name="fudianshouzhan" />
@@ -71,8 +71,13 @@ const moduleList = [
 const moreList = [
   {
     name: 'Custom Components',
-    icon: 'component',
-    page: '/pages_sub/components/list/index'
+    icon: 'zujianliebiao',
+    page: '/pages_sub/custom-elements/list/index'
+  },
+  {
+    name: 'Tab Swiper',
+    icon: 'zujianliebiao',
+    page: '/pages_sub/custom-elements/tab-swiper/index'
   }
 ]
 

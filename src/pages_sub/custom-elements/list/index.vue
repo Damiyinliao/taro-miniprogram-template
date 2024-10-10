@@ -5,26 +5,28 @@
       <example-item title="Modal" direction="row">
         <button type="primary" size="mini" @tap="showNativeModal">Native Modal</button>
         <button type="primary" size="mini" id="show-modal" @tap="onOpenModal">Custom Modal</button>
-        <teleport to="#teleportId" v-if="showModal">
-          <modal v-model:visible="showModal" title="Custom Modal">
-            <template #body>
-              <view>custom header</view>
-            </template>
-          </modal>
-        </teleport>
+        <modal v-model:visible="showModal" title="Custom Modal">
+          <template #body>
+            <view>custom header</view>
+          </template>
+        </modal>
+      </example-item>
+      <example-item title="半屏弹窗">
+        <button type="primary" size="mini" @tap="onHalfScreen">点击展示</button>
+        <HalfScreen v-model:visible="showHalfScreen"></HalfScreen>
       </example-item>
     </view>
-    <view id="teleportId" class="teleportId"></view>
   </view>
-
 </template>
 
 <script setup lang="ts">
 import Taro from '@tarojs/taro';
 import { ref } from 'vue';
 import Modal from '@/components/modal/index.vue';
+import HalfScreen from '@/pages_sub/components/HalfScreen.vue';
 
 const showModal = ref(false);
+const showHalfScreen = ref(false)
 function onOpenModal() {
   showModal.value = true
 }
@@ -36,6 +38,10 @@ function showNativeModal() {
 
     }
   })
+}
+
+function onHalfScreen() {
+  showHalfScreen.value = true
 }
 </script>
 

@@ -1,37 +1,35 @@
 <template>
   <view class="tab-bar">
     <view class="tabbar-list">
-        <view
-          class="tabbar-item"
-          v-for="(item, index) in tabList"
-          :key="item.path"
-          :data-idx="index"
-          :data-path="item.path"
-
-          @tap="handleSwitch"
-        >
-          <view class="tabbar-item__inner" :class="{active: selected === index}">
-            <weapp-svg
-              :name="item.icon"
-              :size="item.iconSize"
-              :color="selected === index ? item.iconColorSelected : item.iconColor"
-            ></weapp-svg>
-            <text class="tabbar-text" :class="{active: selected === index}">{{ item.text }}</text>
-          </view>
+      <view
+        class="tabbar-item"
+        v-for="(item, index) in tabList"
+        :key="item.path"
+        :data-idx="index"
+        :data-path="item.path"
+        @tap="handleSwitch"
+      >
+        <view class="tabbar-item__inner" :class="{active: selected === index}">
+          <weapp-svg
+            :name="item.icon"
+            :size="item.iconSize"
+            :color="selected === index ? item.iconColorSelected : item.iconColor"
+          ></weapp-svg>
+          <text class="tabbar-text" :class="{active: selected === index}">{{ item.text }}</text>
         </view>
+      </view>
     </view>
-    <view class="zhanwei"></view>
   </view>
 </template>
 
 <script setup lang="ts">
 import Taro from '@tarojs/taro';
-import { computed, reactive } from 'vue';
+import { computed } from 'vue';
 import { useAppStore } from '@/store';
 import WeappSvg from '@/components/weapp-svg/index.vue';
 
 const appStore = useAppStore();
-const tabList = reactive([
+const tabList = [
   {
     id: 1,
     path: '/pages/home/index',
@@ -50,7 +48,7 @@ const tabList = reactive([
     text: '我的',
     iconSize: 50,
   }
-])
+]
 
 const selected = computed(() => appStore.selectedTabIndex);
 
@@ -68,6 +66,8 @@ const handleSwitch = (e: any) => {
   bottom: 0;
   left: 0;
   right: 0;
+  --safe-area-bottom: env(safe-area-inset-bottom);
+  padding-bottom: var(--safe-area-bottom, 20px);
   .tabbar-list {
     margin: 0 32px;
     border-radius: 999px;
