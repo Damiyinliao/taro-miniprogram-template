@@ -28,7 +28,7 @@ export default defineComponent({
         <View>
           <TaroNavbar title="首页" loading={loading.value} back={false} />
           {/* 必须使用layout布局才能使用router来进行导航 */}
-          {/* <Button type="primary" size='mini' onClick={handleNav}>跳转到index页面</Button> */}
+          <Button type="primary" size='mini' onClick={handleNav}>跳转到index页面</Button>
         </View>
       )
     }

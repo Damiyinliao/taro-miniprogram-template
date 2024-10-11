@@ -11,32 +11,32 @@ const subPackagesConfig = [
 export default defineAppConfig({
   // componentFramework: 'glass-easel',
   pages: [
-    'pages/home/index',
-    'pages/mine/index',
+    'layout/index/index',
+    // 'pages/mine/index',
   ],
-  subPackages: [
-    ...subPackagesConfig
-  ],
+  // subPackages: [
+  //   ...subPackagesConfig
+  // ],
   // tabBar: defaultTabbarConfig,
-  tabBar: {
-    custom: true,
-    color: '#727171',
-    selectedColor: '#000',
-    list: [
-      {
-        pagePath: 'pages/home/index',
-        iconPath: 'assets/tabbar/island.png',
-        selectedIconPath: 'assets/tabbar/island-selected.png',
-        text: '首页'
-      },
-      {
-        pagePath: 'pages/mine/index',
-        iconPath: 'assets/tabbar/mine.png',
-        selectedIconPath: 'assets/tabbar/mine-selected.png',
-        text: '我的'
-      }
-    ]
-  },
+  // tabBar: {
+  //   custom: true,
+  //   color: '#727171',
+  //   selectedColor: '#000',
+  //   list: [
+  //     {
+  //       pagePath: 'pages/home/index',
+  //       iconPath: 'assets/tabbar/island.png',
+  //       selectedIconPath: 'assets/tabbar/island-selected.png',
+  //       text: '首页'
+  //     },
+  //     {
+  //       pagePath: 'pages/mine/index',
+  //       iconPath: 'assets/tabbar/mine.png',
+  //       selectedIconPath: 'assets/tabbar/mine-selected.png',
+  //       text: '我的'
+  //     }
+  //   ]
+  // },
   window: {
     navigationStyle: 'custom',
     backgroundTextStyle: 'light',

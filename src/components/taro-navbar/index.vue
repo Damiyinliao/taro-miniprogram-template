@@ -58,6 +58,7 @@ import Taro from '@tarojs/taro';
 import { computed } from 'vue';
 import { useAppStore } from '@/store/modules';
 import SvgIcon from '@/components/svg-icon/index.vue';
+import router from '@/router';
 
 interface Props {
   title?: string
@@ -99,7 +100,8 @@ const wrapperStyle = computed(() => {
 })
 
 function onBack() {
-  Taro.navigateBack({ delta: props.delta })
+  // Taro.navigateBack({ delta: props.delta });
+  router.back();
 }
 
 function onHome() {
